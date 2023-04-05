@@ -64,7 +64,7 @@ def appariement_coefficient(l1, l2):
     return (a + b) / (a + b + c + d)
 
 
-def distance(row_a: pd.Series, row_b: pd.Series, columns: list, options: dict = []) -> float:
+def distance(row_a: pd.Series, row_b: pd.Series, columns: list, options: dict = {}) -> float:
     """
         Calculates the distance between two rows
         :param row: the row to calculate the distance from
