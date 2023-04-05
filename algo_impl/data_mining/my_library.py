@@ -100,16 +100,42 @@ def distance(row_a: pd.Series, row_b: pd.Series, columns: list, options: dict = 
             print(f'error :: {col} is not a number or a list : ', type(row_a[col]), row_a[col], row_b[col])
 
     dist = sum(rest_dist.values()) / len(rest_dist)
+    print(f'row_a :: {row_a}', f'row_b :: {row_b}', sep='##########')
     print(f'distance of each column ::  {rest_dist} / {len(rest_dist)} -- result = {dist}')
     return dist
 
 
+# def calcul_distances(df: pd.DataFrame, labels: list):
+#     # calculate distance
+#     Z = np.zeros((len(labels), len(labels)))
+#     for i in range(len(df)):
+#         for j in range(i + 1, len(df)):
+#             Z[i, j] = distance(df.iloc[i], df.iloc[j], columns=df.columns)
+#             Z[j, i] = Z[i, j]
+#     return Z
+
+
 def calcul_distances(df: pd.DataFrame, labels: list):
     # calculate distance
+
+    ignore_columns = []
+    ignore_columns.append('id')
+    ignore_columns.append('class')
+    jaccard = True
+    for col in df.columns:
+        if col in ignore_columns:
+            continue
+        if not df[col].isin([0, 1]).all():
+            jaccard = False
+            break
+
     Z = np.zeros((len(labels), len(labels)))
     for i in range(len(df)):
         for j in range(i + 1, len(df)):
-            Z[i, j] = distance(df.iloc[i], df.iloc[j], columns=df.columns)
+            if not jaccard:
+                Z[i, j] = distance(df.iloc[i], df.iloc[j], columns=df.columns)
+            else:
+                Z[i, j] = jaccard_coefficient(df.iloc[i], df.iloc[j])
             Z[j, i] = Z[i, j]
     return Z
 
