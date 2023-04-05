@@ -41,6 +41,7 @@ def normalize_data(df: pd.DataFrame, test_date: pd.DataFrame = None, ignore_cols
 
 
 def jaccard_coefficient(l1, l2):
+    print(f'jaccard_coefficient :: {l1} -- {l2}')
     # a is the number combinations of 1 and 0
     a = len([1 for i, j in zip(l1, l2) if i == 1 and j == 0])
     # b is the number combinations of 0 and 1
